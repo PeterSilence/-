@@ -1,13 +1,16 @@
 package com.juane.peapyoung.entity;
 
 public class Usager {
-    private Integer id;
+    private String id;
     private String sId;
     private Character sex;
     private String phone;
     private String avator;
 
-    public Usager(Integer id, String sId, Character sex, String phone, String avator) {
+    //代表账号现存状态：0停用，1审核中功能受限，2正常使用
+    private Integer status;
+
+    public Usager(String id, String sId, Character sex, String phone, String avator) {
         this.id = id;
         this.sId = sId;
         this.sex = sex;
@@ -15,11 +18,11 @@ public class Usager {
         this.avator = avator;
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -53,5 +56,13 @@ public class Usager {
 
     public void setAvator(String avator) {
         this.avator = avator;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }

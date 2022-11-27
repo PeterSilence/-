@@ -22,14 +22,13 @@ public class LoadResource {
     @Value("${peapyoung.path}")
     private String studentCardImagePath;
 
-    //文件上传:功能在于更改用户上传的图片名，并返回修改后的文件名
+    //文件上传:功能在于更改用户上传的图片名并存储用户上传的图片文件，最后返回修改后的文件名
     @PostMapping("/upload")
     public R<String> upload(MultipartFile file){
         //原始文件名
         String originName = file.getOriginalFilename();
         //保存后缀名
         String suffix = originName.substring(originName.lastIndexOf("."));
-
         //使用UUID重新生成文件名，防止文件名重复而被覆盖
         String fileName = UUID.randomUUID() + suffix;
 
@@ -49,21 +48,21 @@ public class LoadResource {
         return R.success(fileName);
     }
 
-    //下载功能：作用在于把用户上传的文件保存在文件系统中
-    @GetMapping("/download")
+    //下载功能：作用在于根据用户提供的文件名找到源文件并返回之
+    @GetMapping ("/download")
     public void download(String name, HttpServletResponse response){
-        //name是文件名，response是文件
+        //name是文件名，
         try {
             //通过输入流获取文件内容
             FileInputStream fileInputStream = new FileInputStream(studentCardImagePath+name);
             //通过输出流写回浏览器
             ServletOutputStream outputStream = response.getOutputStream();
 
-            response.setContentType("imag/jpeg");
+            response.setContentType("image/jpeg");
 
-            int length = 0;
+            int length;
             byte[] bytes = new byte[1024];
-            while ((length = fileInputStream.read(bytes)) != 1){
+            while ((length = fileInputStream.read(bytes)) != -1){
                 outputStream.write(bytes,0,length);
                 outputStream.flush();
             }

@@ -1,14 +1,17 @@
 package com.juane.peapyoung.entity;
 
 public class Articles {
-    private Integer id;
+    private String id;
     private String name;
     private String position;
     private String date;
     private Integer takerId;
     private String avator;
 
-    public Articles(Integer id, String name, String position, String date, Integer takerId, String avator) {
+    //物品具备三种状态：丢失1，待认领2，找到3
+    private int status;
+
+    public Articles(String id, String name, String position, String date, Integer takerId, String avator) {
         this.id = id;
         this.name = name;
         this.position = position;
@@ -17,11 +20,11 @@ public class Articles {
         this.avator = avator;
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 

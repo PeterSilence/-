@@ -20,8 +20,8 @@ public interface AdministrateurDao {
     int isIdExist(String id);
 
     //登录验证功能
-    @Select("select count(*) from administrateur where id = #{id} and password = #{password}")
-    int isAdministrateurExist(String id,String password);
+    @Select("select * from administrateur where id = #{id} and password = #{password}")
+    Administrateur isAdministrateurExist(String id,String password);
 
     //更新管理员信息
     int updateData(Administrateur administrateur);

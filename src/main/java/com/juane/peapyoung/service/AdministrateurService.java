@@ -10,7 +10,7 @@ public interface AdministrateurService {
 
     int isIdExist(String id);
 
-    int isAdministrateurExist(String id,String password);
+    Administrateur isAdministrateurExist(String id,String password);
 
     int updateData(Administrateur administrateur);
 

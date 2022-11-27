@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.juane.peapyoung.dao.ArticlesDao">
+    <insert id="savaAllArticles">
+        insert into articles (id,name,position,date,takerId,avator)
+        values(#{id},#{name},#{position},#{date},#{takerId},#{avator});
+    </insert>
+    <update id="updateArticles">
+        update articles
+        set name = #{name},position=#{position},
+    </update>
+
+    <select id="selectArticlesByConditions" resultType="com.juane.peapyoung.entity.Articles">
+        select * from articles
+        <where>
+            <if test="id != null and id != ''">
+                and id = #{id}
+            </if>
+            <if test="name != null and name !=''">
+                and name like #{name}
+            </if>
+            <if test="time != null and time != ''">
+                and time = #{time}
+            </if>
+            <if test="position != null and position != ''">
+                and position like #{position}
+            </if>
+        </where>
+    </select>
+</mapper>

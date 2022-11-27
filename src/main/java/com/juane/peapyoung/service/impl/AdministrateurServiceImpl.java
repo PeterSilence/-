@@ -49,8 +49,9 @@ public class AdministrateurServiceImpl implements AdministrateurService {
     }
 
     @Override
-    public int isAdministrateurExist(String id, String password) {
-        return aDao.isAdministrateurExist(id,password);
+    public Administrateur isAdministrateurExist(String id, String password) {
+        Administrateur administrateur = aDao.isAdministrateurExist(id,password);
+        return administrateur;
     }
 
     //通过管理员id更新其个人信息

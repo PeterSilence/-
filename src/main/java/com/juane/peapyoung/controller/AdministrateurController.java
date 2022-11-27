@@ -7,6 +7,7 @@ import com.juane.peapyoung.service.AdministrateurService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
@@ -68,7 +69,20 @@ public class AdministrateurController {
 
     //登录验证
     @PostMapping("/login")
-    public int login(@RequestBody Map<String,String> map){
-        return aService.isAdministrateurExist(map.get("id"),map.get("password"));
+    public R<String> login(HttpServletRequest request, @RequestBody Map<String,String> map){
+        Administrateur administrateur = aService.isAdministrateurExist
+                (map.get("id"),map.get("password"));
+        if (administrateur == null){
+            return R.error("账号或密码错误，请核实后重试");
+        }else if (administrateur.getStatus() == 0){
+            return R.error("当前账号处于封禁状态中，可联系高级管理员申诉");
+        }
+        request.getSession().setAttribute("administrateur",administrateur.getName());
+        return R.success(administrateur.getName());
+    }
+    @PostMapping("/logout")
+    public R<String> login(HttpServletRequest request){
+        request.getSession().removeAttribute("administrateur");
+        return R.success("注销登录成功！");
     }
 }
