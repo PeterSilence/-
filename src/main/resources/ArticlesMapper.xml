@@ -3,13 +3,14 @@
         PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.juane.peapyoung.dao.ArticlesDao">
-    <insert id="savaAllArticles">
+    <insert id="saveArticlesByTaker">
         insert into articles (id,name,position,date,takerId,avator)
         values(#{id},#{name},#{position},#{date},#{takerId},#{avator});
     </insert>
+
     <update id="updateArticles">
         update articles
-        set name = #{name},position=#{position},
+        set name = #{name},position=#{position},date=#{date},avator=#{avator};
     </update>
 
     <select id="selectArticlesByConditions" resultType="com.juane.peapyoung.entity.Articles">
@@ -28,5 +29,10 @@
                 and position like #{position}
             </if>
         </where>
+    </select>
+
+    <select id="saveArticlesByOwner" resultType="java.lang.Integer">
+        insert into articles(id,name,position,date,avator,owner)
+        values (#{id},#{name},#{position},#{date},#{avator},#{owner});
     </select>
 </mapper>
