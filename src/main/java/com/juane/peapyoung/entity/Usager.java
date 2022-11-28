@@ -7,6 +7,8 @@ public class Usager {
     private String phone;
     private String avator;
 
+    private String password;
+
     //代表账号现存状态：0停用，1审核中功能受限，2正常使用
     private Integer status;
 
@@ -64,5 +66,13 @@ public class Usager {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

@@ -24,4 +24,8 @@ public interface UsagerDao {
 
     //添加用户信息
     int savaUsager(Usager usager);
+
+    //登录验证
+    @Select("select * from usager where id = #{id} and password = #{password}")
+    Usager Usager(String id,String password);
 }
