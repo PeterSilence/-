@@ -10,7 +10,24 @@
 
     <update id="updateArticles">
         update articles
-        set name = #{name},position=#{position},date=#{date},avator=#{avator};
+        <set>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="position != null and position != ''">
+                position = #{position},
+            </if>
+            <if test="date != null and date != ''">
+                date = #{date},
+            </if>
+            <if test="takerId != null and  takerId != ''">
+                takerId = #{takerId},
+            </if>
+            <if test="owner != null and takerId != ''">
+                owner = #{owner}
+            </if>
+        </set>
+        where id = #{id}
     </update>
 
     <select id="selectArticlesByConditions" resultType="com.juane.peapyoung.entity.Articles">
@@ -35,4 +52,5 @@
         insert into articles(id,name,position,date,avator,owner)
         values (#{id},#{name},#{position},#{date},#{avator},#{owner});
     </select>
+
 </mapper>

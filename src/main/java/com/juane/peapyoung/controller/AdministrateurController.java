@@ -27,7 +27,7 @@ public class AdministrateurController {
     }
 
     //保存新增数据（这个也应该交给权限更高的管理员进行操作）
-    @PostMapping("/savaData")
+    @PostMapping("/saveData")
     public R savaData(@RequestBody ReceiveBody receiveBody){
         int a = aService.saveData(receiveBody.getId(), receiveBody.getAdministrateur());
         String msg = "";
@@ -50,21 +50,22 @@ public class AdministrateurController {
 
     //更新数据
     @PostMapping("/updateData")
-    public String updateData(@RequestBody Administrateur administrateur){
+    public R<String> updateData(@RequestBody Administrateur administrateur){
         aService.updateData(administrateur);
-        return "修改管理员信息成功！";
+        return R.success("修改管理员信息成功！");
     }
 
     //删除管理员信息（逻辑删除而非物理删除，需要有更高级管理员操作）
     @DeleteMapping("/deleteByOwner")
-    public String deleteByOwner(@RequestBody Map<String,String> map){
-        return aService.deleteByOwner(map.get("currentId"), map.get("targetId"));
+    public R<String> deleteByOwner(@RequestBody Map<String,String> map){
+        return R.success(aService.deleteByOwner(map.get("currentId"),
+                map.get("targetId")));
     }
 
     //根据条件查找数据，可用于查看个人信息
     @PostMapping("/selectByConditions")
-    public List<Administrateur> selectByConditions(@RequestBody Administrateur administrateur){
-        return aService.selectByConditions(administrateur);
+    public R<List<Administrateur>> selectByConditions(@RequestBody Administrateur administrateur){
+        return R.success(aService.selectByConditions(administrateur));
     }
 
     //登录验证
@@ -81,7 +82,7 @@ public class AdministrateurController {
         return R.success(administrateur.getName());
     }
     @PostMapping("/logout")
-    public R<String> login(HttpServletRequest request){
+    public R<String> logout(HttpServletRequest request){
         request.getSession().removeAttribute("administrateur");
         return R.success("注销登录成功！");
     }

@@ -51,7 +51,7 @@ public class LoadResource {
     //下载功能：作用在于根据用户提供的文件名找到源文件并返回之
     @GetMapping ("/download")
     public void download(String name, HttpServletResponse response){
-        //name是文件名，
+        //name是文件名
         try {
             //通过输入流获取文件内容
             FileInputStream fileInputStream = new FileInputStream(studentCardImagePath+name);

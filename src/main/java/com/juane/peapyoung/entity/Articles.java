@@ -3,12 +3,13 @@ package com.juane.peapyoung.entity;
 import java.time.LocalDateTime;
 import java.util.Date;
 
+
 public class Articles {
     private String id;
     private String name;
     private String position;
-    private LocalDateTime date;
-    private Integer takerId;
+    private Date date;
+    private String takerId;
     private String avator;
 
     private String owner;
@@ -16,7 +17,7 @@ public class Articles {
     //物品具备三种状态：丢失1，待认领2，找到3
     private int status;
 
-    public Articles(String id, String name, String position, LocalDateTime date, Integer takerId, String avator) {
+    public Articles(String id, String name, String position, Date date, String takerId, String avator) {
         this.id = id;
         this.name = name;
         this.position = position;
@@ -49,19 +50,19 @@ public class Articles {
         this.position = position;
     }
 
-    public LocalDateTime getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(LocalDateTime date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
-    public Integer getTakerId() {
+    public String getTakerId() {
         return takerId;
     }
 
-    public void setTakerId(Integer takerId) {
+    public void setTakerId(String takerId) {
         this.takerId = takerId;
     }
 

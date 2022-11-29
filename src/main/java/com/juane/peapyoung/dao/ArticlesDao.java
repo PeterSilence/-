@@ -3,7 +3,6 @@ package com.juane.peapyoung.dao;
 import com.juane.peapyoung.entity.Articles;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
 
 
 import java.util.List;
@@ -22,9 +21,11 @@ public interface ArticlesDao {
     //显示所有记录在案的失物,给管理员使用
     @Select("select * from articles")
     List<Articles> selectAllArticles();
-    //找到失物主人,或者失物被捡到.物品的属性中应该存在“主人”
-    @Update("update articles set status = 3,owner = #{ownerId} where id = #{id}")
-    int findOwner(String id,String ownerId);
+
     //修改失物信息
     int updateArticles(Articles articles);
+
+    //根据id获取失物信息
+    @Select("select * from articles where id  = #{id}")
+    Articles  getArticlesById(String id);
 }

@@ -23,9 +23,13 @@ public interface UsagerDao {
     int modifyStatus(String id,String cId,int status);
 
     //添加用户信息
-    int savaUsager(Usager usager);
+    int saveUsager(Usager usager);
 
     //登录验证
     @Select("select * from usager where id = #{id} and password = #{password}")
-    Usager Usager(String id,String password);
+    Usager login(String id,String password);
+
+    //配合失物认领使用，返回捡到者id
+    @Select("select phone from usager where id = #{id}")
+    String getPhone(String id);
 }
