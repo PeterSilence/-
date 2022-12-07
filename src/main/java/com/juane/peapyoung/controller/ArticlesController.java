@@ -45,6 +45,8 @@ public class ArticlesController {
     //根据条件查找失物
     @PostMapping("/selectArticlesByConditions")
     public R<List<Articles>> selectArticlesByConditions(@RequestBody Articles articles){
+        articles.setName("%"+articles.getName()+"%");
+        articles.setPosition(articles.getPosition()+"%");
         List<Articles> list = aService.selectArticlesByConditions(articles);
         return R.success(list);
     }

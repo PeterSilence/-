@@ -18,9 +18,6 @@
     <select id="selectArticlesByConditions" resultType="com.juane.peapyoung.entity.Articles">
         select * from articles
         <where>
-            <if test="id != null and id != ''">
-                and id = #{id}
-            </if>
             <if test="name != null and name !=''">
                 and name like #{name}
             </if>
