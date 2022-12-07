@@ -3,11 +3,9 @@ import com.juane.peapyoung.common.Code;
 import com.juane.peapyoung.common.R;
 
 import com.juane.peapyoung.entity.Administrateur;
-import com.juane.peapyoung.entity.Articles;
 
 import com.juane.peapyoung.entity.Usager;
 import com.juane.peapyoung.service.AdministrateurService;
-import com.juane.peapyoung.service.ArticlesService;
 import com.juane.peapyoung.service.UsagerService;
 
 import org.springframework.beans.factory.annotation.Autowired;
