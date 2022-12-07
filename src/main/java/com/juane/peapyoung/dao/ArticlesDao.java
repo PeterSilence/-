@@ -42,6 +42,7 @@ public interface ArticlesDao {
     @Select("select * from articles where owner = #{usagerId} and takerId is not null")
     List<Articles> myClaim(String usagerId);
 
+
     @Update("update articles set status = #{status} =  where id = #{id}")
     int updateStatus(Long id,int status);
 

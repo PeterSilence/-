@@ -129,7 +129,7 @@ public class AdministrateurController {
 
 
     //审核通过用户信息
-    @GetMapping("passUsagerInfo")
+    @GetMapping("/passUsagerInfo")
     public R<String> passUsagerInfo(HttpServletRequest request,String id){
         String currentId = (String) request.getSession().getAttribute("administrateur");
         int code = usagerService.modifyStatus(id,currentId,1);

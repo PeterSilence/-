@@ -60,7 +60,7 @@ public class ArticlesServiceImpl implements ArticlesService {
         if (code == 0)
             return articlesDao.deleteMyLost(id,usager);
         else if (code == 1)
-            return articlesDao.deleteMyLost(id,usager);
+            return articlesDao.deleteMyUpload(id,usager);
         else return 2;
     }
 }

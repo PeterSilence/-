@@ -116,9 +116,8 @@ public class ArticlesController {
 
     //取消认领
     @GetMapping("/cancelClaim")
-    public R<String> cancelClaim(HttpServletRequest request){
-        Long id = (Long) request.getSession().getAttribute("usager");
-        int code = articlesService.changeStatus(id,2);
+    public R<String> cancelClaim(HttpServletRequest request,Long articlesId){
+        int code = articlesService.changeStatus(articlesId,2);
         if (code == 1)
             return R.success("操作成功！");
         else return R.error("发生未知错误，请重试！");
