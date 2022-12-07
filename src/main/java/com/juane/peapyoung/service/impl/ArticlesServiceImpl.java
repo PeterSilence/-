@@ -12,13 +12,8 @@ public class ArticlesServiceImpl implements ArticlesService {
     @Autowired
     private ArticlesDao articlesDao;
     @Override
-    public int saveArticlesByTaker(Articles articles, String takerId) {
-        return articlesDao.saveArticlesByTaker(articles, takerId);
-    }
-
-    @Override
-    public int saveArticlesByOwner(Articles articles, String owner) {
-        return articlesDao.saveArticlesByOwner(articles, owner);
+    public int saveArticles(Articles articles) {
+        return articlesDao.saveArticles(articles);
     }
 
     @Override
@@ -44,5 +39,28 @@ public class ArticlesServiceImpl implements ArticlesService {
     @Override
     public Articles getArticlesById(String id) {
         return articlesDao.getArticlesById(id);
+    }
+
+    @Override
+    public List<Articles> selectByMe(String usagerId, int status) {
+        if (status == 0)
+            return articlesDao.myLost(usagerId);
+        else if (status == 1)
+            return articlesDao.myUpload(usagerId);
+        else return articlesDao.myClaim(usagerId);
+    }
+
+    @Override
+    public int changeStatus(Long id, int status) {
+        return articlesDao.updateStatus(id, status);
+    }
+
+    @Override
+    public int deleteArticles(Long id, String usager,int code) {
+        if (code == 0)
+            return articlesDao.deleteMyLost(id,usager);
+        else if (code == 1)
+            return articlesDao.deleteMyLost(id,usager);
+        else return 2;
     }
 }

@@ -2,22 +2,40 @@ package com.juane.peapyoung.entity;
 
 public class Usager {
     private String id;
-    private String sId;
-    private Character sex;
+    private String aid;
+    private String name;
+    private String sex;
     private String phone;
     private String avator;
-
     private String password;
-
-    //代表账号现存状态：0停用，1审核中功能受限，2正常使用
+    //代表账号现存状态:不必用户填写，系统自动生成
     private Integer status;
+    private String schoolPosition;
 
-    public Usager(String id, String sId, Character sex, String phone, String avator) {
+    public Usager() {
+    }
+
+    //这里构造器的参数位置要与数据库中的属性位置相一致，否则会报错
+    public Usager(String id, String aid, String name,
+                  String sex, String phone,Integer status, String avator,
+                  String password,  String schoolPosition) {
         this.id = id;
-        this.sId = sId;
+        this.aid = aid;
+        this.name = name;
         this.sex = sex;
         this.phone = phone;
         this.avator = avator;
+        this.password = password;
+        this.status = status;
+        this.schoolPosition = schoolPosition;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getId() {
@@ -28,19 +46,19 @@ public class Usager {
         this.id = id;
     }
 
-    public String getsId() {
-        return sId;
+    public String getaId() {
+        return aid;
     }
 
-    public void setsId(String sId) {
-        this.sId = sId;
+    public void setsId(String aId) {
+        this.aid = aId;
     }
 
-    public Character getSex() {
+    public String getSex() {
         return sex;
     }
 
-    public void setSex(Character sex) {
+    public void setSex(String sex) {
         this.sex = sex;
     }
 
@@ -74,5 +92,13 @@ public class Usager {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getSchoolPosition() {
+        return schoolPosition;
+    }
+
+    public void setSchoolPosition(String schoolPosition) {
+        this.schoolPosition = schoolPosition;
     }
 }

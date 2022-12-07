@@ -5,11 +5,8 @@ import com.juane.peapyoung.entity.Articles;
 import java.util.List;
 
 public interface ArticlesService {
-    //新增失物（捡到人员角度）
-    int saveArticlesByTaker(Articles articles, String takerId);
-
-    //新增失物（失主角度）
-    int saveArticlesByOwner(Articles articles,String owner);
+    //新增失物
+    int saveArticles(Articles articles);
 
     //根据条件查找失物(两方用途，一是根据用户提供的先所从数据库查找，而是根据用户id查找)
     List<Articles> selectArticlesByConditions(Articles articles);
@@ -25,4 +22,13 @@ public interface ArticlesService {
 
     //通过id获取物品所有信息
     Articles getArticlesById(String id);
+
+    //根据物品与用户的关系查找物品
+    List<Articles> selectByMe(String usagerId,int status);
+
+    //改变物品状态
+    int changeStatus(Long id,int status);
+
+    //删除物品信息
+    int deleteArticles(Long id,String usager,int code);
 }

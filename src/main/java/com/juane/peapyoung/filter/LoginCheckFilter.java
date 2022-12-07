@@ -1,8 +1,9 @@
 package com.juane.peapyoung.filter;
 
-import com.alibaba.druid.support.json.JSONUtils;
 import com.juane.peapyoung.common.BaseContext;
 import com.juane.peapyoung.common.R;
+import com.alibaba.fastjson.JSON;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.AntPathMatcher;
 
@@ -29,9 +30,11 @@ public class LoginCheckFilter implements Filter {
                 "/administrateur/logout",
                 "/usager/login",
                 "/usager/logout",
+                "/usager/enregister",
                 "/common/**",
                 "front/**"
         };
+        log.info("拦截到请求：{}",requestURI);
         //判断本次请求是否需要处理
         if (check(urls,requestURI)){
             //无需处理，直接放行
@@ -54,7 +57,8 @@ public class LoginCheckFilter implements Filter {
             return;
         }
         //如果没有登陆的话就返回返回提示信息
-        response.getWriter().write(JSONUtils.toJSONString(R.error("未检测到您的登录信息！")));
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write(JSON.toJSONString(R.error("未检测到您的登录信息！")));
     }
 
     private boolean check(String[] urls, String requestURI) {

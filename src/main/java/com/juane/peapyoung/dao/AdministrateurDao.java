@@ -9,15 +9,15 @@ import java.util.List;
 public interface AdministrateurDao {
 
     //查询所有数据
-    @Select("select * from administrateur where status = 1")
+    @Select("select * from administrateur where id != #{id}")
     List<Administrateur> getTrenteData(String id);
 
     //新增管理员数据
     int savaData(Administrateur administrateur);
 
     //查询id是否存在，存在返回1，不存在返回零
-    @Select("select count(*) from administrateur where id = #{id}")
-    int isIdExist(String id);
+    @Select("select * from administrateur where id = #{id}")
+    Administrateur isIdExist(String id);
 
     //登录验证功能
     @Select("select * from administrateur where id = #{id} and password = #{password}")
@@ -27,7 +27,7 @@ public interface AdministrateurDao {
     int updateData(Administrateur administrateur);
 
     //删除管理员信息
-    int deleteDataByOwner(String id);
+    int changeAdministrateurStatus(int status,String id);
 
     //根据条件查询管理员数据
     List<Administrateur> selectByConditions(@Param("administrateur")

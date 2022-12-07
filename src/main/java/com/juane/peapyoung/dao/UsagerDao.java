@@ -3,6 +3,7 @@ package com.juane.peapyoung.dao;
 import com.juane.peapyoung.entity.Usager;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 
@@ -20,16 +21,20 @@ public interface UsagerDao {
     int updateUsager(Usager usager);
 
     //修改用户状态（给用户和管理员使用）用户可以自己注销账号，管理员可以验证和停用
-    int modifyStatus(String id,String cId,int status);
+    int modifyStatus(String id,String aId,int status);
 
     //添加用户信息
     int saveUsager(Usager usager);
 
-    //登录验证
-    @Select("select * from usager where id = #{id} and password = #{password}")
-    Usager login(String id,String password);
-
     //配合失物认领使用，返回捡到者id
     @Select("select phone from usager where id = #{id}")
     String getPhone(String id);
+
+    //修改用户密码
+    @Update("update usager set password = #{newCode} where id = #{id} and password = #{pastCode}")
+    int changePassword(String id,String pastCode,String newCode);
+
+    //根据状态筛选数据
+    @Select("select * from usager where status = #{status}")
+    List<Usager> selectUsagerByStatus(int status);
 }

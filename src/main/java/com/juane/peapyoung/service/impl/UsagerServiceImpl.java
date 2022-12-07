@@ -36,13 +36,19 @@ public class UsagerServiceImpl implements UsagerService {
         return usagerDao.saveUsager(usager);
     }
 
-    @Override
-    public Usager login(String id, String password) {
-        return usagerDao.login(id, password);
-    }
 
     @Override
     public String getPhone(String id) {
         return usagerDao.getPhone(id);
+    }
+
+    @Override
+    public int changePassword(String id, String pastCode, String newCode) {
+        return usagerDao.changePassword(id, pastCode, newCode);
+    }
+
+    @Override
+    public List<Usager> selectUsagerByStatus(int status) {
+        return usagerDao.selectUsagerByStatus(status);
     }
 }

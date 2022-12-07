@@ -5,7 +5,7 @@ import java.util.Date;
 
 
 public class Articles {
-    private String id;
+    private Long id;
     private String name;
     private String position;
     private Date date;
@@ -15,22 +15,29 @@ public class Articles {
     private String owner;
 
     //物品具备三种状态：丢失1，待认领2，找到3
-    private int status;
+    private Integer status;
 
-    public Articles(String id, String name, String position, Date date, String takerId, String avator) {
+    public Articles() {
+    }
+
+    public Articles(Long id, String name, String position,
+                    Date date, String takerId, String avator,
+                    int status, String owner) {
         this.id = id;
         this.name = name;
         this.position = position;
         this.date = date;
         this.takerId = takerId;
         this.avator = avator;
+        this.owner = owner;
+        this.status = status;
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

@@ -1,7 +1,6 @@
 package com.juane.peapyoung.service;
 
 import com.juane.peapyoung.entity.Usager;
-import org.graalvm.compiler.lir.alloc.lsra.LinearScan;
 
 import java.util.List;
 
@@ -21,9 +20,12 @@ public interface UsagerService {
     //添加用户信息
     int savaUsager(Usager usager);
 
-    //登录验证
-    Usager login(String id,String password);
-
    //获取手机号
    String getPhone(String id);
+
+   //修改密码
+    int changePassword(String id,String pastCode,String newCode);
+
+    //根据状态筛选用户
+    List<Usager> selectUsagerByStatus(int status);
 }

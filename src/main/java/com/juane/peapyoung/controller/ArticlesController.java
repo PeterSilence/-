@@ -2,7 +2,6 @@ package com.juane.peapyoung.controller;
 
 import com.juane.peapyoung.common.R;
 import com.juane.peapyoung.entity.Articles;
-import com.juane.peapyoung.entity.ReceiveBody;
 import com.juane.peapyoung.service.ArticlesService;
 import com.juane.peapyoung.service.UsagerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,18 +22,24 @@ public class ArticlesController {
     //新增失物信息（从捡到人员角度）
     @PostMapping("/saveArticlesByTaker")
     public R<String> saveArticlesByTaker(HttpServletRequest request,
-                                         @RequestBody ReceiveBody receiveBody){
-        receiveBody.setId((String) request.getSession().getAttribute("usager"));
-        aService.saveArticlesByTaker(receiveBody.getArticles(), receiveBody.getId());
-        return R.success("物品信息添加成功，系统会帮您尽快找到失主");
+                                         @RequestBody Articles articles){
+        articles.setTakerId((String) request.getSession().getAttribute("usager"));
+        articles.setStatus(2);
+        int code = articlesService.saveArticles(articles);
+        if (code == 1)
+            return R.success("感谢您让牧院变得更加美好，希望物品早日回到失主身边！");
+        else return R.error("发生未知错误，请联系管理员并重试！");
     }
 
     @PostMapping("/saveArticlesByOwner")
     public R<String> saveArticlesByOwner(HttpServletRequest request,
-                                         @RequestBody ReceiveBody receiveBody){
-        receiveBody.setId((String) request.getSession().getAttribute("usager"));
-        aService.saveArticlesByOwner(receiveBody.getArticles(), receiveBody.getId());
-        return R.success("失物信息添加成功，希望失物尽快回到您的身边");
+                                         @RequestBody Articles articles){
+        articles.setOwner((String) request.getSession().getAttribute("usager"));
+        articles.setStatus(1);
+        int code = articlesService.saveArticles(articles);
+        if (code == 1)
+            return R.success("请您耐心等待，系统会尽快帮您找回物品");
+        else return R.error("发生未知错误，请联系管理员重试!");
     }
 
     //根据条件查找失物
@@ -45,42 +50,96 @@ public class ArticlesController {
     }
 
     //根据物品状态给物品分类
-    @GetMapping("/selectArticlesByStatus")
-    public R<List<Articles>> selectArticlesByStatus(@PathVariable int status){
-        return R.success(aService.selectArticlesByStatus(status));
+    //查看所有物品信息(已经找到)
+    @GetMapping("allArticlesByFind")
+    public R<List<Articles>> allArticlesByFind(){
+        return R.success(articlesService.selectArticlesByStatus(3));
+    }
+    //查看所有物品信息（无人认领）
+    @GetMapping("allArticlesByTake")
+    public R<List<Articles>> allArticlesByTake(){
+        return R.success(articlesService.selectArticlesByStatus(2));
+    }
+    //查看所有物品信息（丢失中）
+    @GetMapping("allArticlesByLost")
+    public R<List<Articles>> allArticlesByLost(){
+        return R.success(articlesService.selectArticlesByStatus(1));
     }
 
-    //显示所有记录在案的失物信息，给管理员使用
-    @GetMapping("/selectAllArticles")
-    public R<List<Articles>> selectAllArticles(){
-        return R.success(aService.selectAllArticles());
-    }
-
-    //失物认领,物品主人角度
+    //失物认领,捡到者和主人都可以调用此等方法。前端标签可示为：我捡到了，我是失主
+    //前端传来物品id即可
     @GetMapping("/findOwner")
     public R<String> findOwner(HttpServletRequest request,
-                                @PathVariable String articlesId,
-                                @PathVariable int code){
+                                 String articlesId){
         //根据id获取对应的物品信息
         Articles articles = articlesService.getArticlesById(articlesId);
+        int status = articles.getStatus();
         //将物品状态调整到“物归原主”态
         articles.setStatus(3);
         String phone;
         //如果验证码是1，获取捡到者id
-        if (code == 1){
-            //如果是捡到者上传失物信息，设置物品的takerId信息，并获取捡到者电话
+        if (status == 1){
+            //如果是捡到者上传的失物，设置物品的takerId信息，并获取捡到者电话
             articles.setTakerId((String) request.getSession().getAttribute("usager"));
             phone = uService.getPhone(articles.getTakerId());
         }
-        else {
-            //如果是失主上传失物信息，设置物品的owner信息，并获取主人电话
+        else if (status == 2){
+            //如果是失主上传的失物，设置物品的owner信息，并获取主人电话
             articles.setOwner((String) request.getSession().getAttribute("usager"));
             phone = uService.getPhone(articles.getOwner());
-        }
+        }else return R.error("当前物品已经找到主人啦，不要再找一个爸爸或妈妈啦");
         //更新物品信息
         articlesService.updateArticles(articles);
         //返回失主或捡到者的电话号码
         return R.success(phone);
     }
 
+    //我的丢失
+    @GetMapping("/myLost")
+    public R<List<Articles>> myLost(HttpServletRequest request){
+        String id = (String) request.getSession().getAttribute("usager");
+        return R.success(articlesService.selectByMe(id,0));
+    }
+    //我的上传
+    @GetMapping("/myUpload")
+    public R<List<Articles>> myUpload(HttpServletRequest request){
+        String id = (String) request.getSession().getAttribute("usager");
+        return R.success(articlesService.selectByMe(id,1));
+    }
+
+    //我的认领
+    @GetMapping("/myClaim")
+    public R<List<Articles>> myClaim(HttpServletRequest request){
+        String id = (String) request.getSession().getAttribute("usager");
+        return R.success(articlesService.selectByMe(id,2));
+    }
+
+    //取消认领
+    @GetMapping("/cancelClaim")
+    public R<String> cancelClaim(HttpServletRequest request){
+        Long id = (Long) request.getSession().getAttribute("usager");
+        int code = articlesService.changeStatus(id,2);
+        if (code == 1)
+            return R.success("操作成功！");
+        else return R.error("发生未知错误，请重试！");
+    }
+
+    //删除"我丢失的"物品信息
+    @DeleteMapping("/deleteMyLost")
+    public R<String> deleteArticles(HttpServletRequest request,Long id){
+        String usagerId = (String) request.getSession().getAttribute("usager");
+        int code = articlesService.deleteArticles(id,usagerId,0);
+        if (code == 1)
+            return R.success("删除数据成功！");
+        else return R.error("发生未知错误，请重试！");
+    }
+    //删除“我上传的”物品信息
+    @DeleteMapping("/deleteMyUpload")
+    public R<String> deleteMyUpload(HttpServletRequest request,Long id){
+        String usagerId = (String) request.getSession().getAttribute("usager");
+        int code = articlesService.deleteArticles(id,usagerId,1);
+        if (code == 1)
+            return R.success("删除数据成功！");
+        else return R.error("发生未知错误，请重试！");
+    }
 }

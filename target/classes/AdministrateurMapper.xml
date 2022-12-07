@@ -14,9 +14,10 @@
         set name = #{name}, password = #{password}, phone = #{phone} where id = #{id};
     </update>
 
-    <update id="deleteDataByOwner">
+    <update id="changeAdministrateurStatus">
         update administrateur
-        set status = 0;
+        set status = #{status}
+        where id = #{id};
     </update>
 
     <select id="selectByConditions" resultType="com.juane.peapyoung.entity.Administrateur">

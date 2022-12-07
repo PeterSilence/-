@@ -8,13 +8,13 @@ public interface AdministrateurService {
 
     int saveData(String currentId,Administrateur administrateur);
 
-    int isIdExist(String id);
+    Administrateur isIdExist(String id);
 
     Administrateur isAdministrateurExist(String id,String password);
 
     int updateData(Administrateur administrateur);
 
-    String deleteByOwner(String currentId,String targetId);
+    int changeAdministrateurStatus(int status,String targetId);
 
     List<Administrateur> selectByConditions(Administrateur administrateur);
 }

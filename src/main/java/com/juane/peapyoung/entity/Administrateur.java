@@ -10,11 +10,13 @@ public class Administrateur {
     public Administrateur() {
     }
 
-    public Administrateur(String id, String name, String phone, String password) {
+    public Administrateur(String id, String name, String phone, String password
+                            ,Integer status) {
         this.id = id;
         this.name = name;
         this.phone = phone;
         this.password = password;
+        this.status = status;
     }
 
     public String getId() {

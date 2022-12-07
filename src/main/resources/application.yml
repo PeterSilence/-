@@ -8,7 +8,7 @@ spring:
     username: root
     password: 1234
 mybatis:
-  mapper-locations: classpath:AdministrateurMapper.xml
+  mapper-locations: classpath:*Mapper.xml
   type-aliases-package: com.juane.peapyoung.entity
 peapyoung:
   path: D:\studentCardImg\

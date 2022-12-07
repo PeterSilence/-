@@ -18,22 +18,24 @@ public class AdministrateurServiceImpl implements AdministrateurService {
         Administrateur administrateur = new Administrateur();
         administrateur.setId(id);
         List<Administrateur> list = aDao.selectByConditions(administrateur);
-        if (list.get(0).getStatus() != 3){
+        if (list != null && list.get(0).getStatus() != 6){
             return null;
         }else
             return aDao.getTrenteData(id);
     }
 
-    //新增管理员信息,因为是用户自己输入的id，所以要判定数据库中是否已存在，确保唯一性
+    //新增管理员信息,让高级管理员进行操作
     @Override
     public int saveData(String id,Administrateur savedData) {
         Administrateur administrateur = new Administrateur();
         administrateur.setId(id);
         List<Administrateur> list = aDao.selectByConditions(administrateur);
-        if (list.get(0).getStatus() == 3){
-            int a = aDao.isIdExist(administrateur.getId());
-            if (a != 1){
-                aDao.savaData(administrateur);
+        //验证执行添加操作的管理员权限
+        if (list != null && list.get(0).getStatus() == 6){
+            //验证所要添加的管理员id是否已经存在
+            Administrateur a = aDao.isIdExist(savedData.getId());
+            if (a.getStatus() != 1){
+                aDao.savaData(savedData);
                 return 2;
             }else
                 return 1;
@@ -44,7 +46,7 @@ public class AdministrateurServiceImpl implements AdministrateurService {
 
     //判断该id是否存在（测试类删除后把此函数再删除）
     @Override
-    public int isIdExist(String id) {
+    public Administrateur isIdExist(String id) {
         return aDao.isIdExist(id);
     }
 
@@ -61,15 +63,8 @@ public class AdministrateurServiceImpl implements AdministrateurService {
     }
 
     @Override
-    public String deleteByOwner(String currentId,String targetId) {
-        Administrateur administrateur = new Administrateur();
-        administrateur.setId(currentId);
-        List<Administrateur> lists = aDao.selectByConditions(administrateur);
-        if (lists.get(0).getStatus() == 3){
-            aDao.deleteDataByOwner(targetId);
-            return "更新管理员信息成功！";
-        } else
-            return "当前管理员权限不足，无法完成修改！";
+    public int changeAdministrateurStatus(int status, String targetId) {
+        return aDao.changeAdministrateurStatus(status,targetId);
     }
 
     @Override
