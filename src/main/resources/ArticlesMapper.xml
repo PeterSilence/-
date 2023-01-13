@@ -28,11 +28,26 @@
                 and position like #{position}
             </if>
         </where>
+        limit #{startIndex},#{pageSize}
     </select>
-
+    <select id="theSumOfSelectArticlesByConditions" resultType="java.lang.Integer">
+        select count(*) from articles
+        <where>
+            <if test="name != null and name !=''">
+                and name like #{name}
+            </if>
+            <if test="time != null and time != ''">
+                and time = #{time}
+            </if>
+            <if test="position != null and position != ''">
+                and position like #{position}
+            </if>
+        </where>
+    </select>
     <select id="saveArticlesByOwner" resultType="java.lang.Integer">
         insert into articles(name,position,date,avator,status,owner)
         values (#{name},#{position},#{date},#{avator},#{1},#{owner});
     </select>
+
 
 </mapper>

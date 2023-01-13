@@ -17,18 +17,29 @@ public class ArticlesServiceImpl implements ArticlesService {
     }
 
     @Override
-    public List<Articles> selectArticlesByConditions(Articles articles) {
-        return articlesDao.selectArticlesByConditions(articles);
+    public List<Articles> selectArticlesByConditions(Articles articles,int startIndex,int pageSize) {
+        return articlesDao.selectArticlesByConditions(articles,startIndex,pageSize);
     }
 
     @Override
-    public List<Articles> selectArticlesByStatus(int status) {
-        return articlesDao.selectArticlesByStatus(status);
+    public int theSumOfSelectArticlesByConditions(Articles articles) {
+        int sum = articlesDao.theSumOfSelectArticlesByConditions(articles);
+        int pageNum = sum % 30;
+        if (pageNum == 0) return pageNum / 30;
+        else return (pageNum / 30) + 1;
     }
 
     @Override
-    public List<Articles> selectAllArticles() {
-        return articlesDao.selectAllArticles();
+    public List<Articles> selectArticlesByStatus(int status,int startIndex,int pageSize) {
+        return articlesDao.selectArticlesByStatus(status,startIndex,pageSize);
+    }
+
+    @Override
+    public int theSumOfSelectArticlesByStatus(int status) {
+        int sum = articlesDao.theSumOfSelectArticlesByStatus(status);
+        int pageNum = sum % 30;
+        if (pageNum == 0) return pageNum / 30;
+        else return (pageNum / 30) + 1;
     }
 
     @Override

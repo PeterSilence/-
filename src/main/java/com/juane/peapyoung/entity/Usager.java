@@ -1,5 +1,7 @@
 package com.juane.peapyoung.entity;
 
+import org.springframework.stereotype.Component;
+
 public class Usager {
     private String id;
     private String aid;

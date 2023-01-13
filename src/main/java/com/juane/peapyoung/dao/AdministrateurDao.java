@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 @Repository
 public interface AdministrateurDao {
-
     //查询所有数据
     @Select("select * from administrateur where id != #{id}")
     List<Administrateur> getTrenteData(String id);

@@ -1,18 +1,21 @@
 package com.juane.peapyoung.dao;
 
 import com.juane.peapyoung.entity.Usager;
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Mapper
+@Repository
 public interface UsagerDao {
     //显示所有用户信息（提供管理员查看）
-    @Select("select * from usager")
-    List<Usager> selectAllUsagers();
+    @Select("select * from usager limit #{startIndex},#{pageSize}")
+    List<Usager> selectAllUsagers(int startIndex,int pageSize);
 
+    //显示所有用户信息，返回数量
+    @Select("select count(*) from usager")
+    int theSumOfSelectAllUsagers();
     //根据id查看个人信息
     @Select("select * from usager where id = #{id}")
     Usager selectUsagerById(String id);
@@ -35,6 +38,9 @@ public interface UsagerDao {
     int changePassword(String id,String pastCode,String newCode);
 
     //根据状态筛选数据
-    @Select("select * from usager where status = #{status}")
-    List<Usager> selectUsagerByStatus(int status);
+    @Select("select * from usager where status = #{status} limit #{startIndex},#{pageSize}")
+    List<Usager> selectUsagerByStatus(int status,int startIndex,int pageSize);
+    //根据状态筛选数据，返回数量
+    @Select("select count(*) from usager where status = #{status}")
+    int theSumOfSelectUsagerByStatus(int status);
 }

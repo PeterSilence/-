@@ -63,6 +63,7 @@ public class LoadResource {
             int length;
             byte[] bytes = new byte[1024];
             while ((length = fileInputStream.read(bytes)) != -1){
+                //写bytes数组中的数据，起点为off，读取length长度的数据
                 outputStream.write(bytes,0,length);
                 outputStream.flush();
             }

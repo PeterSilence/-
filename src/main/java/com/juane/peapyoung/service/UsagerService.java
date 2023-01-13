@@ -6,7 +6,10 @@ import java.util.List;
 
 public interface UsagerService {
     //显示所有用户信息，供管理员使用
-    List<Usager> selectAllUsagers();
+    List<Usager> selectAllUsagers(int startIndex,int pageSize);
+
+    //显示所有用户信息，返回数量
+    int theSumOfSelectAllUsagers();
 
     //根据id查询个人信息
     Usager selectUsagerById(String id);
@@ -27,5 +30,8 @@ public interface UsagerService {
     int changePassword(String id,String pastCode,String newCode);
 
     //根据状态筛选用户
-    List<Usager> selectUsagerByStatus(int status);
+    List<Usager> selectUsagerByStatus(int status,int startIndex,int pageSize);
+
+    //根据状态筛选用户
+    int theSumOfSelectUsagerByStatus(int status);
 }

@@ -2,26 +2,30 @@ package com.juane.peapyoung.dao;
 
 import com.juane.peapyoung.entity.Articles;
 import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
-import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.stereotype.Repository;
 
 
 import java.util.List;
 
-@Mapper
+@Repository
 public interface ArticlesDao {
     //新增失物
     int saveArticles(Articles articles);
-    //根据条件查找失物(两方用途，一是根据用户提供的先所从数据库查找，而是根据用户id查找)
-    List<Articles> selectArticlesByConditions(Articles articles);
+    //根据条件查找失物
+    List<Articles> selectArticlesByConditions(Articles articles,int startIndex,int pageSize);
+
+    //根据条件查找失物，返回数量
+    int theSumOfSelectArticlesByConditions(Articles articles);
+
     //根据物品状态给物品分类，给普通用户使用，通过“待认领2”和“丢失中1”两种状态来查询
-    @Select("select * from articles where status = #{status}")
-    List<Articles> selectArticlesByStatus(int status);//1找物品2找失主
-    //显示所有记录在案的失物,给管理员使用
-    @Select("select * from articles")
-    List<Articles> selectAllArticles();
+    @Select("select * from articles where status = #{status} limit #{startIndex},#{pageSize}")
+    List<Articles> selectArticlesByStatus(int status,int startIndex,int pageSize);//1找物品(失主角度)2找失主(拾者角度)
+
+    //根据物品状态进行查找，返回数量
+    @Select("select count(*) from articles where status = #{status}")
+    int theSumOfSelectArticlesByStatus(int status);
 
     //修改失物信息
     int updateArticles(Articles articles);
@@ -41,7 +45,6 @@ public interface ArticlesDao {
     //我的认领
     @Select("select * from articles where owner = #{usagerId} and takerId is not null")
     List<Articles> myClaim(String usagerId);
-
 
     @Update("update articles set status = #{status} =  where id = #{id}")
     int updateStatus(Long id,int status);

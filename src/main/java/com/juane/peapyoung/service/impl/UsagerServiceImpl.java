@@ -12,8 +12,16 @@ public class UsagerServiceImpl implements UsagerService {
     @Autowired
     private UsagerDao usagerDao;
     @Override
-    public List<Usager> selectAllUsagers() {
-        return usagerDao.selectAllUsagers();
+    public List<Usager> selectAllUsagers(int startIndex,int pageSize) {
+        return usagerDao.selectAllUsagers(startIndex, pageSize);
+    }
+
+    @Override
+    public int theSumOfSelectAllUsagers() {
+        int sum = usagerDao.theSumOfSelectAllUsagers();
+        int pageNum = sum % 30;
+        if (pageNum == 0) return pageNum / 30;
+        else return (pageNum / 30) + 1;
     }
 
     @Override
@@ -48,7 +56,15 @@ public class UsagerServiceImpl implements UsagerService {
     }
 
     @Override
-    public List<Usager> selectUsagerByStatus(int status) {
-        return usagerDao.selectUsagerByStatus(status);
+    public List<Usager> selectUsagerByStatus(int status,int startIndex,int pageSize) {
+        return usagerDao.selectUsagerByStatus(status,startIndex,pageSize);
+    }
+
+    @Override
+    public int theSumOfSelectUsagerByStatus(int status) {
+        int sum = usagerDao.theSumOfSelectUsagerByStatus(status);
+        int pageNum = sum % 30;
+        if (pageNum == 0) return pageNum / 30;
+        else return (pageNum / 30) + 1;
     }
 }

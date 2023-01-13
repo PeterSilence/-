@@ -2,6 +2,7 @@ package com.juane.peapyoung.controller;
 
 import com.juane.peapyoung.common.R;
 import com.juane.peapyoung.entity.Articles;
+import com.juane.peapyoung.entity.ReceiveBody;
 import com.juane.peapyoung.service.ArticlesService;
 import com.juane.peapyoung.service.UsagerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,30 +45,45 @@ public class ArticlesController {
 
     //根据条件查找失物
     @PostMapping("/selectArticlesByConditions")
-    public R<List<Articles>> selectArticlesByConditions(@RequestBody Articles articles){
+    public R<List<Articles>> selectArticlesByConditions(@RequestBody ReceiveBody receiveBody){
+        Articles articles = receiveBody.getArticles();
+        int startIndex = receiveBody.getStartIndex();
+        int pageSize = receiveBody.getPageSize();
         articles.setName("%"+articles.getName()+"%");
         articles.setPosition(articles.getPosition()+"%");
-        List<Articles> list = aService.selectArticlesByConditions(articles);
-        return R.success(list);
+        List<Articles> list = aService.selectArticlesByConditions(articles,startIndex,pageSize);
+        if (!list.isEmpty()) return R.success(list);
+        else return R.error("当前条件搜索为空!");
+    }
+    @PostMapping("/theSumOfSelectArticlesByConditions")
+    public R<Integer> selectArticlesByConditions(@RequestBody Articles articles){
+        articles.setName("%"+articles.getName()+"%");
+        articles.setPosition(articles.getPosition()+"%");
+        int sum = aService.theSumOfSelectArticlesByConditions(articles);
+        return  R.success(sum);
     }
 
     //根据物品状态给物品分类
     //查看所有物品信息(已经找到)
     @GetMapping("allArticlesByFind")
-    public R<List<Articles>> allArticlesByFind(){
-        return R.success(articlesService.selectArticlesByStatus(3));
+    public R<List<Articles>> allArticlesByFind(int startIndex,int pageSize){
+        return R.success(articlesService.selectArticlesByStatus(3,startIndex,pageSize));
     }
     //查看所有物品信息（无人认领）
     @GetMapping("allArticlesByTake")
-    public R<List<Articles>> allArticlesByTake(){
-        return R.success(articlesService.selectArticlesByStatus(2));
+    public R<List<Articles>> allArticlesByTake(int startIndex,int pageSize){
+        return R.success(articlesService.selectArticlesByStatus(2,startIndex,pageSize));
     }
     //查看所有物品信息（丢失中）
     @GetMapping("allArticlesByLost")
-    public R<List<Articles>> allArticlesByLost(){
-        return R.success(articlesService.selectArticlesByStatus(1));
+    public R<List<Articles>> allArticlesByLost(int startIndex,int pageSize){
+        return R.success(articlesService.selectArticlesByStatus(1,startIndex,pageSize));
     }
 
+    @GetMapping("theSumOfSelectArticlesByStatus")
+    public R<Integer> theSumOfSelectArticlesByStatus(int status){
+        return R.success(articlesService.theSumOfSelectArticlesByStatus(status));
+    }
     //失物认领,捡到者和主人都可以调用此等方法。前端标签可示为：我捡到了，我是失主
     //前端传来物品id即可
     @GetMapping("/findOwner")

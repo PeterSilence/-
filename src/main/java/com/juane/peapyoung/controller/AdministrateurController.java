@@ -123,10 +123,15 @@ public class AdministrateurController {
 
     //查询所有用户信息
     @GetMapping("/allUsagers")
-    public R<List<Usager>> allUsagers(){
-        return R.success(usagerService.selectAllUsagers());
+    public R<List<Usager>> allUsagers(int startIndex,int pageSize){
+        return R.success(usagerService.selectAllUsagers(startIndex, pageSize));
     }
 
+    //查询所有用户信息，返回页数
+    @GetMapping("/theSumOfAllUsagers")
+    public R<Integer> theSumOfAllUsagers(){
+        return R.success(usagerService.theSumOfSelectAllUsagers());
+    }
 
     //审核通过用户信息
     @GetMapping("/passUsagerInfo")
@@ -160,7 +165,12 @@ public class AdministrateurController {
 
     //筛选出所有待审核账号
     @GetMapping("/allUsagerForChecking")
-    public R<List<Usager>> allUsagerForChecking(){
-        return R.success(usagerService.selectUsagerByStatus(2));
+    public R<List<Usager>> allUsagerForChecking(int startIndex,int pageSize){
+        return R.success(usagerService.selectUsagerByStatus(2,startIndex,pageSize));
+    }
+    //筛选出所有待审核账号，返回数量
+    @GetMapping("/theSumOfAllUsagerForChecking")
+    public R<Integer> theSumOfAllUsagerForChecking(){
+        return R.success(usagerService.theSumOfSelectUsagerByStatus(2));
     }
 }

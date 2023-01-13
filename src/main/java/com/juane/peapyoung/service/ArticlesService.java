@@ -9,14 +9,15 @@ public interface ArticlesService {
     int saveArticles(Articles articles);
 
     //根据条件查找失物(两方用途，一是根据用户提供的先所从数据库查找，而是根据用户id查找)
-    List<Articles> selectArticlesByConditions(Articles articles);
+    List<Articles> selectArticlesByConditions(Articles articles,int startIndex,int pageSize);
 
+    //根据条件查找失物，返回页数
+    int theSumOfSelectArticlesByConditions(Articles articles);
     //根据物品状态给物品分类，给普通用户使用，通过“待认领2”和“丢失中1”两种状态来查询
-    List<Articles> selectArticlesByStatus(int status);
+    List<Articles> selectArticlesByStatus(int status,int startIndex,int pageSize);
 
-    //显示所有记录在案的失物,给管理员使用
-    List<Articles> selectAllArticles();
-
+    //根据物品状态分类，返回页数
+    int theSumOfSelectArticlesByStatus(int status);
     //修改失物信息
     int updateArticles(Articles articles);
 

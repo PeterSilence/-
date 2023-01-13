@@ -4,6 +4,8 @@ public class ReceiveBody {
     private Administrateur administrateur;
 
     private Articles articles;
+    private int startIndex;
+    private int pageSize;
     private String id;
 
     public ReceiveBody() {
@@ -41,5 +43,21 @@ public class ReceiveBody {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public int getStartIndex() {
+        return startIndex;
+    }
+
+    public void setStartIndex(int startIndex) {
+        this.startIndex = startIndex;
+    }
+
+    public int getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
     }
 }
