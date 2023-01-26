@@ -1,4 +1,6 @@
 package com.juane.peapyoung;
+import com.juane.peapyoung.entity.Administrateur;
+
 import com.juane.peapyoung.service.AdministrateurService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +9,7 @@ import org.springframework.data.redis.connection.DataType;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -20,6 +23,40 @@ class PeapyoungApplicationTests {
     @Autowired
     private RedisTemplate redisTemplate;
 
+
+
+    ThreadLocal<String> content = new ThreadLocal<>();
+//    private String content;
+    private String getContent(){
+        return content.get();
+        //return t.get();
+    }
+    private void setContent(String content){
+//        this.content = content;
+        this.content.set(content);
+    }
+
+    @Test
+    void test(){
+        LocalDate dateTime = LocalDate.now();
+        System.out.println(dateTime);
+    }
+    public static void main(String[] args) {
+        //创建同一个对象，多个线程对其变量进行操作，无法实现线程间数据隔离
+        PeapyoungApplicationTests tests = new PeapyoungApplicationTests();
+        for (int i = 0; i < 5; i++) {
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    tests.setContent(Thread.currentThread().getName()+"的数据");
+                    System.out.println(Thread.currentThread().getName() + "---->"
+                            + tests.getContent());
+                }
+            });
+            thread.setName("线程"+i);
+            thread.start();
+        }
+    }
 
 //    @Test
 //    void redis() {
@@ -45,12 +82,22 @@ class PeapyoungApplicationTests {
     //操作字符串类型数据
     @Test
     void testString(){
-        //存放字符串
-        redisTemplate.opsForValue().set("city","Paris");
-        //给字符串设置存活周期
-        redisTemplate.opsForValue().set("name","Peter",10l, TimeUnit.SECONDS);
-        //如果key已经存在值就不做任何改变，返回布尔类型的值
-        redisTemplate.opsForValue().setIfAbsent("city","New York");
+//        //存放字符串
+//        redisTemplate.opsForValue().set("city","Paris");
+//        //给字符串设置存活周期
+//        redisTemplate.opsForValue().set("name","Peter",10l, TimeUnit.SECONDS);
+//        //如果key已经存在值就不做任何改变，返回布尔类型的值
+//        redisTemplate.opsForValue().setIfAbsent("city","New York");
+
+        Administrateur administrateur = new Administrateur();
+        administrateur.setId("202160202012");
+        administrateur.setName("张培阳");
+        administrateur.setPhone("17637463945");
+
+        redisTemplate.opsForValue().set("object",administrateur,60,TimeUnit.MINUTES);
+
+        redisTemplate.delete("administrateur");
+        System.out.println(redisTemplate.opsForValue().get("object"));
     }
     //操作哈希数据类型
     @Test

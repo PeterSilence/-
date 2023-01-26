@@ -1,22 +1,49 @@
 package com.juane.peapyoung.entity;
 
-public class Administrateur {
+import java.io.Serializable;
+import java.time.LocalDate;
+
+
+//实现Serializable接口是为了将此实现类进行序列化存放到redis中
+public class Administrateur implements Serializable {
     private String id;
     private String name;
     private String phone;
     private Integer status;
     private String password;
 
+    private  LocalDate gmt_create;
+
+    private  LocalDate gmt_modified;
+
+    public LocalDate getGmt_create() {
+        return gmt_create;
+    }
+
+    public void setGmt_create(LocalDate gmt_create) {
+        this.gmt_create = gmt_create;
+    }
+
+    public LocalDate getGmt_modified() {
+        return gmt_modified;
+    }
+
+    public void setGmt_modified(LocalDate gmt_modified) {
+        this.gmt_modified = gmt_modified;
+    }
+
     public Administrateur() {
     }
 
     public Administrateur(String id, String name, String phone, String password
-                            ,Integer status) {
+                            , Integer status, LocalDate gmt_create, LocalDate gmt_modified) {
         this.id = id;
         this.name = name;
         this.phone = phone;
         this.password = password;
         this.status = status;
+        this.gmt_create = gmt_create;
+        this.gmt_modified = gmt_modified;
     }
 
     public String getId() {

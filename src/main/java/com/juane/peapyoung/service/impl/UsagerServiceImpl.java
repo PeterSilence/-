@@ -12,8 +12,8 @@ public class UsagerServiceImpl implements UsagerService {
     @Autowired
     private UsagerDao usagerDao;
     @Override
-    public List<Usager> selectAllUsagers(int startIndex,int pageSize) {
-        return usagerDao.selectAllUsagers(startIndex, pageSize);
+    public List<Usager> selectAllUsagers(int startIndex) {
+        return usagerDao.selectAllUsagers(startIndex);
     }
 
     @Override
@@ -56,8 +56,8 @@ public class UsagerServiceImpl implements UsagerService {
     }
 
     @Override
-    public List<Usager> selectUsagerByStatus(int status,int startIndex,int pageSize) {
-        return usagerDao.selectUsagerByStatus(status,startIndex,pageSize);
+    public List<Usager> selectUsagerByStatus(int status,int startIndex) {
+        return usagerDao.selectUsagerByStatus(status,startIndex);
     }
 
     @Override

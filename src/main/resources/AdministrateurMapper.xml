@@ -5,23 +5,35 @@
 <mapper namespace="com.juane.peapyoung.dao.AdministrateurDao">
 
     <insert id="savaData">
-        insert into administrateur(id,password,name,phone)
-        values(#{id},#{password},#{name},#{phone});
+        insert into administrateur(id,password,name,phone,gmt_create)
+        values(#{id},#{password},#{name},#{phone},#{gmt_create});
     </insert>
 
     <update id="updateData">
         update administrateur
-        set name = #{name}, password = #{password}, phone = #{phone} where id = #{id};
+        <set>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="password != null and password != ''">
+                password = #{password},
+            </if>
+            <if test="phone != null and phone != ''">
+                phone = #{phone},
+            </if>
+            gmt_modified = #{gmt_modified}
+        </set>
+        where id = #{id};
     </update>
 
     <update id="changeAdministrateurStatus">
         update administrateur
-        set status = #{status}
+        set status = #{status}, gmt_modified = now()
         where id = #{id};
     </update>
 
     <select id="selectByConditions" resultType="com.juane.peapyoung.entity.Administrateur">
-        select * from administrateur
+        select id,name,password,phone from administrateur
         <where>
             <if test="administrateur.id != null and administrateur.id != ''">
                 and id = #{administrateur.id}

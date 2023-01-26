@@ -1,5 +1,6 @@
 package com.juane.peapyoung.entity;
 
+
 public class ReceiveBody {
     private Administrateur administrateur;
 

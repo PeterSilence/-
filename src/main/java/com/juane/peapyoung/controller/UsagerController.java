@@ -5,6 +5,7 @@ import com.juane.peapyoung.common.R;
 import com.juane.peapyoung.entity.Usager;
 import com.juane.peapyoung.service.UsagerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
@@ -14,6 +15,11 @@ import java.util.Map;
 public class UsagerController {
     @Autowired
     private UsagerService uService;
+    @Autowired
+    private RedisTemplate redisTemplate;
+    /*
+    登录验证
+     */
     @PostMapping("/login")
     public R<String> login(HttpServletRequest request,@RequestBody Map<String,String> map){
         String id = map.get("id");
@@ -80,12 +86,14 @@ public class UsagerController {
         else return R.error("发生不可知错误，请重试！");
     }
 
+    //登出账号
     @GetMapping("/logout")
     public R<String> logout(HttpServletRequest request){
         request.getSession().removeAttribute("usager");
         return R.success("退出登录成功！");
     }
 
+    //修改密码
     @PostMapping("/changePassword")
     public R<String> changePassword(HttpServletRequest request,
                                     @RequestBody Map<String,String> map){

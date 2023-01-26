@@ -1,5 +1,6 @@
 package com.juane.peapyoung.entity;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -8,7 +9,7 @@ public class Articles {
     private Long id;
     private String name;
     private String position;
-    private Date date;
+    private LocalDate date;
     private String takerId;
     private String avator;
 
@@ -21,7 +22,7 @@ public class Articles {
     }
 
     public Articles(Long id, String name, String position,
-                    Date date, String takerId, String avator,
+                    LocalDate date, String takerId, String avator,
                     int status, String owner) {
         this.id = id;
         this.name = name;
@@ -57,11 +58,11 @@ public class Articles {
         this.position = position;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 

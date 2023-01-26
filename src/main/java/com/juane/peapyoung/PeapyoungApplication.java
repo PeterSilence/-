@@ -5,6 +5,7 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication  //指定springboot启动类
@@ -12,6 +13,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @ServletComponentScan   //配合过滤器使用
 @EnableTransactionManagement    //开启事务管理，在操作多张表时
 @MapperScan("com.juane.peapyoung.dao")
+@EnableCaching //开启springCache
 public class PeapyoungApplication {
     public static void main(String[] args) {
         SpringApplication.run(PeapyoungApplication.class, args);

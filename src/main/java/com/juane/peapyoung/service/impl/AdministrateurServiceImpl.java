@@ -15,13 +15,7 @@ public class AdministrateurServiceImpl implements AdministrateurService {
 
     //获取管理员数据
     public List<Administrateur> getData(String id) {
-        Administrateur administrateur = new Administrateur();
-        administrateur.setId(id);
-        List<Administrateur> list = aDao.selectByConditions(administrateur);
-        if (list != null && list.get(0).getStatus() != 6){
-            return null;
-        }else
-            return aDao.getTrenteData(id);
+        return aDao.getTrenteData(id);
     }
 
     //新增管理员信息,让高级管理员进行操作
@@ -31,15 +25,17 @@ public class AdministrateurServiceImpl implements AdministrateurService {
         administrateur.setId(id);
         List<Administrateur> list = aDao.selectByConditions(administrateur);
         //验证执行添加操作的管理员权限
-        if (list != null && list.get(0).getStatus() == 6){
+        if (list.get(0).getStatus() == 6){
             //验证所要添加的管理员id是否已经存在
             Administrateur a = aDao.isIdExist(savedData.getId());
-            if (a.getStatus() != 1){
+            if (a == null){
                 aDao.savaData(savedData);
                 return 2;
-            }else
+            } else
+                //当前id已经存在
                 return 1;
         }else
+            //管理员权限不足
             return 0;
 
     }

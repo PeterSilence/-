@@ -10,8 +10,8 @@ import java.util.List;
 @Repository
 public interface UsagerDao {
     //显示所有用户信息（提供管理员查看）
-    @Select("select * from usager limit #{startIndex},#{pageSize}")
-    List<Usager> selectAllUsagers(int startIndex,int pageSize);
+    @Select("select id,aId,name,sex,phone,status,schoolPosition,avator from usager limit #{startIndex},30")
+    List<Usager> selectAllUsagers(int startIndex);
 
     //显示所有用户信息，返回数量
     @Select("select count(*) from usager")
@@ -38,8 +38,8 @@ public interface UsagerDao {
     int changePassword(String id,String pastCode,String newCode);
 
     //根据状态筛选数据
-    @Select("select * from usager where status = #{status} limit #{startIndex},#{pageSize}")
-    List<Usager> selectUsagerByStatus(int status,int startIndex,int pageSize);
+    @Select("select * from usager where status = #{status} limit #{startIndex},30")
+    List<Usager> selectUsagerByStatus(int status,int startIndex);
     //根据状态筛选数据，返回数量
     @Select("select count(*) from usager where status = #{status}")
     int theSumOfSelectUsagerByStatus(int status);
