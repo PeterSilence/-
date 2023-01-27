@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDate;
 import java.util.Map;
 
 @RestController
@@ -15,8 +16,6 @@ import java.util.Map;
 public class UsagerController {
     @Autowired
     private UsagerService uService;
-    @Autowired
-    private RedisTemplate redisTemplate;
     /*
     登录验证
      */
@@ -36,13 +35,14 @@ public class UsagerController {
         }
         BaseContext.setCurrentId(id);
         request.getSession().setAttribute("usager",map.get("id"));
-        String name = usager.getName();
+        String name = "欢迎您："+usager.getName();
         return new R(name,"登录成功！",1);
     }
 
     //注册账号
     @PostMapping("/enregister")
     public R<String> enregister(@RequestBody Usager usager){
+        usager.setGmt_create(LocalDate.now());
         Usager usager1 = uService.selectUsagerById(usager.getId());
         if (usager1 == null){
             uService.savaUsager(usager);
@@ -59,7 +59,6 @@ public class UsagerController {
     //修改用户信息
     @PostMapping("/updateUsager")
     public R<String> updateUsager(HttpServletRequest request,@RequestBody Usager usager){
-        System.out.println("usager"+request.getSession().getAttribute("usager"));
         usager.setId((String) request.getSession().getAttribute("usager"));
         int result = uService.updateUsager(usager);
         if (result == 1)

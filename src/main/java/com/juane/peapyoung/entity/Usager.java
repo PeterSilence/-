@@ -2,6 +2,8 @@ package com.juane.peapyoung.entity;
 
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
+
 public class Usager {
     private String id;
     private String aid;
@@ -13,6 +15,34 @@ public class Usager {
     //代表账号现存状态:不必用户填写，系统自动生成
     private Integer status;
     private String schoolPosition;
+
+    private LocalDate gmt_create;
+
+    private LocalDate gmt_modified;
+
+    public String getAid() {
+        return aid;
+    }
+
+    public void setAid(String aid) {
+        this.aid = aid;
+    }
+
+    public LocalDate getGmt_create() {
+        return gmt_create;
+    }
+
+    public void setGmt_create(LocalDate gmt_create) {
+        this.gmt_create = gmt_create;
+    }
+
+    public LocalDate getGmt_modified() {
+        return gmt_modified;
+    }
+
+    public void setGmt_modified(LocalDate gmt_modified) {
+        this.gmt_modified = gmt_modified;
+    }
 
     public Usager() {
     }

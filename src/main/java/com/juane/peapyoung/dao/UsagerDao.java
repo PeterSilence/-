@@ -17,7 +17,7 @@ public interface UsagerDao {
     @Select("select count(*) from usager")
     int theSumOfSelectAllUsagers();
     //根据id查看个人信息
-    @Select("select * from usager where id = #{id}")
+    @Select("select id,name,sex,phone,status,password,schoolPosition,gmt_create from usager where id = #{id}")
     Usager selectUsagerById(String id);
 
     //根据id修改用户信息（给用户使用）
@@ -40,6 +40,7 @@ public interface UsagerDao {
     //根据状态筛选数据
     @Select("select * from usager where status = #{status} limit #{startIndex},30")
     List<Usager> selectUsagerByStatus(int status,int startIndex);
+
     //根据状态筛选数据，返回数量
     @Select("select count(*) from usager where status = #{status}")
     int theSumOfSelectUsagerByStatus(int status);
