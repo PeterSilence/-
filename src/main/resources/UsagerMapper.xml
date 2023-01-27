@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.juane.peapyoung.dao.UsagerDao">
+<mapper namespace="com.juane.dao.UsagerDao">
     <insert id="saveUsager">
         insert into usager(id,name,sex,phone,avator,password,schoolPosition,gmt_create)
         values (#{id},#{name},#{sex},#{phone},#{avator},#{password},#{schoolPosition},#{gmt_create});

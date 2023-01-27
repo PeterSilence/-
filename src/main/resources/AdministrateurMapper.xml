@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.juane.peapyoung.dao.AdministrateurDao">
+<mapper namespace="com.juane.dao.AdministrateurDao">
 
     <insert id="savaData">
         insert into administrateur(id,password,name,phone,gmt_create)
@@ -32,7 +32,7 @@
         where id = #{id};
     </update>
 
-    <select id="selectByConditions" resultType="com.juane.peapyoung.entity.Administrateur">
+    <select id="selectByConditions" resultType="com.juane.entity.Administrateur">
         select id,name,password,phone from administrateur
         <where>
             <if test="administrateur.id != null and administrateur.id != ''">
