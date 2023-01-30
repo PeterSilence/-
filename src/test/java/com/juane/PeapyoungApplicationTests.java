@@ -1,7 +1,11 @@
 package com.juane;
+import com.juane.dao.ArticlesDao;
 import com.juane.entity.Administrateur;
 
+import com.juane.entity.Articles;
 import com.juane.service.AdministrateurService;
+import com.juane.service.ArticlesService;
+import com.juane.service.UsagerService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,9 +28,22 @@ class PeapyoungApplicationTests {
     private RedisTemplate redisTemplate;
 
 
-
     ThreadLocal<String> content = new ThreadLocal<>();
 //    private String content;
+
+    @Autowired
+    private ArticlesDao articlesDao;
+
+    @Autowired
+    private ArticlesService articlesService;
+
+    @Test
+    void getArticles(){
+        LocalDate lost_time = LocalDate.parse("2022-05-12");
+        System.out.println(lost_time);
+
+        System.out.println("查找到的数据为："+lost_time);
+    }
     private String getContent(){
         return content.get();
         //return t.get();

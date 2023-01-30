@@ -34,7 +34,7 @@ public class UsagerController {
         }
         BaseContext.setCurrentId(id);
         request.getSession().setAttribute("usager",map.get("id"));
-        String name = "欢迎您："+usager.getName();
+        String name = "欢迎您："+usager.getName() + "同学";
         return new R(name,"登录成功！",1);
     }
 
