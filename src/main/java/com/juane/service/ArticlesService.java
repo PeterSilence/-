@@ -28,7 +28,7 @@ public interface ArticlesService {
     List<Articles> selectByMe(String usagerId,int status);
 
     //改变物品状态
-    int changeStatus(Long id,int status);
+    int changeStatus(Articles articles);
 
     //删除物品信息
     int deleteArticles(Long id);

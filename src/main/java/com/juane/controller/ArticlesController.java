@@ -188,9 +188,12 @@ public class ArticlesController {
     public R<String> cancelClaim(HttpServletRequest request,Long articlesId){
         Articles articles = articlesService.getArticlesById(articlesId);
         String id = (String) request.getSession().getAttribute("usager");
-        if (articles == null || articles.getOwner() == null) return R.success("黑客请勿攻击！");
+        if (articles == null || articles.getOwner() == null || articles.getOwner().equals(id))
+            return R.success("黑客请勿攻击！");
+
         if (articles.getOwner().equals(id)){
-            int code = articlesService.changeStatus(articlesId,2);
+            articles.setStatus(2);
+            int code = articlesService.changeStatus(articles);
             if (code == 1){
                 redisTemplate.delete("articles*");
                 return R.success("操作成功！");

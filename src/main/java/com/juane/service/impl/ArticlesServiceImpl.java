@@ -71,8 +71,9 @@ public class ArticlesServiceImpl implements ArticlesService {
     }
 
     @Override
-    public int changeStatus(Long id, int status) {
-        return articlesDao.cancelClaim(id, status);
+    public int changeStatus(Articles articles) {
+        articles.setGmt_modified(LocalDate.now());
+        return articlesDao.cancelClaim(articles);
     }
 
     @Override
