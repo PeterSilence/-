@@ -42,7 +42,9 @@ public class LoadResource {
         try {
             file.transferTo(new File(studentCardImagePath + fileName));
         } catch (IOException e) {
+            log.info(e.getMessage());
             e.printStackTrace();
+            return R.error("发生存储错误");
         }
         //把改好的文件名传递回去
         return R.success(fileName);

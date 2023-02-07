@@ -1,5 +1,6 @@
 server:
   port: 8080
+
 spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
@@ -27,6 +28,5 @@ mybatis:
   mapper-locations: classpath:*Mapper.xml
   type-aliases-package: com.juane.peapyoung.entity
 peapyoung:
-  path: D:/studentCardImg/
-
+  path: /privateProjects/studentCardImg/
 
