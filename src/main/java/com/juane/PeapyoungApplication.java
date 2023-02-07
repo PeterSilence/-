@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @ServletComponentScan   //配合过滤器使用
 @EnableTransactionManagement    //开启事务管理，在操作多张表时
 @MapperScan("com.juane.dao")
-@EnableCaching //开启springCache
 public class PeapyoungApplication {
     public static void main(String[] args) {
         SpringApplication.run(PeapyoungApplication.class, args);

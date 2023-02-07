@@ -2,6 +2,7 @@ package com.juane.config;
 
 import com.juane.common.JacksonObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -17,8 +18,9 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
     @Override
     protected void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/backend/**").addResourceLocations("classpath:/backend/");
-        registry.addResourceHandler("/front/**").addResourceLocations("classpath:/front/");
-
+        //把对front的访问映射到存储图片的本地目录
+        registry.addResourceHandler("/front/**").addResourceLocations("file:D://studentCardImg/");
+        System.out.println("地址转制成功！");
     }
     //扩展mvc框架的消息转换器
     @Override

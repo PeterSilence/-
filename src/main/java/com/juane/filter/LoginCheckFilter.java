@@ -32,7 +32,8 @@ public class LoginCheckFilter implements Filter {
                 "/usager/logout",
                 "/usager/enregister",
                 "/common/**",
-                "front/**"
+                "/backend/**",
+                "/front/**"
         };
         log.info("拦截到请求：{}",requestURI);
         //判断本次请求是否需要处理
