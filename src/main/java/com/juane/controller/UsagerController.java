@@ -33,7 +33,7 @@ public class UsagerController {
             return R.error("改账号已经注销，请重新注册使用");
         }
         BaseContext.setCurrentId(id);
-        request.getSession().setAttribute("usager",map.get("id"));
+        request.getSession().setAttribute("usager",id);
         String name = "欢迎您："+usager.getName() + "同学";
         return new R(name,"登录成功！",1);
     }

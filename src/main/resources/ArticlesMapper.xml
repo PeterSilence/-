@@ -69,7 +69,7 @@
             <if test="articles.position != null and articles.position != ''">
                 and position like #{articles.position}
             </if>
-            <if test="articles.status != null">
+            <if test="articles.status != null and articles.status != 0">
                 and status = #{articles.status}
             </if>
         </where>
