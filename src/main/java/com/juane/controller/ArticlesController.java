@@ -138,25 +138,26 @@ public class ArticlesController {
         int status = articles.getStatus();
         //将物品状态调整到“物归原主”态
         articles.setStatus(3);
-        String phone;
+        String phone = "";
+        if(status == 3){
+            return R.error("当前物品已经找到主人啦，不要再找一个爸爸或妈妈啦");
+        }
         //如果验证码是1，获取捡到者id
         if (status == 1){
             //如果是捡到者上传的失物，设置物品的takerId信息，并获取捡到者电话
             articles.setTakerId((String) request.getSession().getAttribute("usager"));
             phone = uService.getPhone(articles.getTakerId());
-            redisTemplate.delete("articles*");
-            return R.success(phone);
         }
         else if (status == 2){
             //如果是失主上传的失物，设置物品的owner信息，并获取主人电话
             articles.setOwner((String) request.getSession().getAttribute("usager"));
             phone = uService.getPhone(articles.getOwner());
-            redisTemplate.delete("articles*");
-            return R.success(phone);
-        }else{
-            return R.error("当前物品已经找到主人啦，不要再找一个爸爸或妈妈啦");
         }
+        articlesService.updateArticles(articles);
+        redisTemplate.delete("articles**");
+        return R.success(phone);
     }
+
 
     //我的丢失(面向主人)
     @GetMapping("/myLost")
@@ -198,7 +199,7 @@ public class ArticlesController {
             articles.setStatus(2);
             int code = articlesService.changeStatus(articles);
             if (code == 1){
-                redisTemplate.delete("articles*");
+                redisTemplate.delete("articles**");
                 return R.success("操作成功！");
             }
         }
@@ -215,7 +216,7 @@ public class ArticlesController {
             return R.error("Please don't disturb my project!！");
 
         articlesService.deleteArticles(id);
-        redisTemplate.delete("articles*");
+        redisTemplate.delete("articles**");
         return R.success("删除数据成功！");
     }
     //删除“我上传的”物品信息
@@ -230,7 +231,7 @@ public class ArticlesController {
             return R.error("Please don't disturb my project!！");
 
         articlesService.deleteArticles(id);
-        redisTemplate.delete("articles*");
+        redisTemplate.delete("articles**");
         return R.success("删除数据成功！");
     }
 
