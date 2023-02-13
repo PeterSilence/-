@@ -140,8 +140,9 @@ public class Articles implements Serializable {
                 "id=" + this.id +
                 ",name=" + this.name +
                 ",position=" + this.position +
+                ",takerId=" + this.takerId +
                 ",lost_time=" + this.lost_time +
                 ",status=" + this.status  +
-                ",owner=" + this.getOwner() + "}";
+                ",owner=" + this.owner + "}";
     }
 }

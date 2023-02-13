@@ -144,17 +144,18 @@ public class ArticlesController {
             //如果是捡到者上传的失物，设置物品的takerId信息，并获取捡到者电话
             articles.setTakerId((String) request.getSession().getAttribute("usager"));
             phone = uService.getPhone(articles.getTakerId());
+            redisTemplate.delete("articles*");
+            return R.success(phone);
         }
         else if (status == 2){
             //如果是失主上传的失物，设置物品的owner信息，并获取主人电话
             articles.setOwner((String) request.getSession().getAttribute("usager"));
             phone = uService.getPhone(articles.getOwner());
-        }else return R.error("当前物品已经找到主人啦，不要再找一个爸爸或妈妈啦");
-        //更新物品信息
-        articlesService.updateArticles(articles);
-        //返回失主或捡到者的电话号码
-        redisTemplate.delete("articles*");
-        return R.success(phone);
+            redisTemplate.delete("articles*");
+            return R.success(phone);
+        }else{
+            return R.error("当前物品已经找到主人啦，不要再找一个爸爸或妈妈啦");
+        }
     }
 
     //我的丢失(面向主人)
@@ -222,9 +223,11 @@ public class ArticlesController {
     public R<String> deleteMyUpload(HttpServletRequest request,Long id){
         String usagerId = (String) request.getSession().getAttribute("usager");
         Articles articles = articlesService.getArticlesById(id);
+        System.out.println(id);
+        System.out.println(articles);
         if (articles == null || articles.getTakerId() == null
                 || !articles.getTakerId().equals(usagerId))
-            return R.success("Please don't disturb my project!！");
+            return R.error("Please don't disturb my project!！");
 
         articlesService.deleteArticles(id);
         redisTemplate.delete("articles*");
@@ -234,6 +237,6 @@ public class ArticlesController {
     @GetMapping
     public String egg(){
         redisTemplate.delete("articles*");
-        return "Made by 张培阳";
+        return "Made by PeiYang Zhang";
     }
 }
