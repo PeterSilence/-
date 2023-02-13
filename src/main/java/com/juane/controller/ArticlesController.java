@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/articles")
@@ -34,7 +35,8 @@ public class ArticlesController {
         int code = articlesService.saveArticles(articles);
 
         if (code == 1){
-            redisTemplate.delete("articles*");
+            Set<String> keys = redisTemplate.keys("articles"+"*");
+            redisTemplate.delete(keys);
             return R.success("感谢您让牧院变得更加美好，希望物品早日回到失主身边！");
         }
 
@@ -49,7 +51,8 @@ public class ArticlesController {
         int code = articlesService.saveArticles(articles);
 
         if (code == 1){
-            redisTemplate.delete("articles*");
+            Set<String> keys = redisTemplate.keys("articles"+"*");
+            redisTemplate.delete(keys);
             return R.success("请您耐心等待，系统会尽快帮您找回物品");
         }
 
@@ -154,7 +157,8 @@ public class ArticlesController {
             phone = uService.getPhone(articles.getOwner());
         }
         articlesService.updateArticles(articles);
-        redisTemplate.delete("articles**");
+        Set<String> keys = redisTemplate.keys("articles" + "*");
+        redisTemplate.delete(keys);
         return R.success(phone);
     }
 
@@ -199,7 +203,8 @@ public class ArticlesController {
             articles.setStatus(2);
             int code = articlesService.changeStatus(articles);
             if (code == 1){
-                redisTemplate.delete("articles**");
+                Set<String> keys = redisTemplate.keys("articles"+"*");
+                redisTemplate.delete(keys);
                 return R.success("操作成功！");
             }
         }
@@ -216,7 +221,8 @@ public class ArticlesController {
             return R.error("Please don't disturb my project!！");
 
         articlesService.deleteArticles(id);
-        redisTemplate.delete("articles**");
+        Set<String> keys = redisTemplate.keys("articles"+"*");
+        redisTemplate.delete(keys);
         return R.success("删除数据成功！");
     }
     //删除“我上传的”物品信息
@@ -231,7 +237,8 @@ public class ArticlesController {
             return R.error("Please don't disturb my project!！");
 
         articlesService.deleteArticles(id);
-        redisTemplate.delete("articles**");
+        Set<String> keys = redisTemplate.keys("articles"+"*");
+        redisTemplate.delete(keys);
         return R.success("删除数据成功！");
     }
 

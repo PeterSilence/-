@@ -19,7 +19,7 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
     protected void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/backend/**").addResourceLocations("classpath:/backend/");
         //把对front的访问映射到存储图片的本地目录
-        registry.addResourceHandler("/front/**").addResourceLocations("file:/studentCardImg/");
+        registry.addResourceHandler("/front/**").addResourceLocations("file:/privateProjects/studentCardImg/");
         System.out.println("地址转制成功！");
     }
     //扩展mvc框架的消息转换器
