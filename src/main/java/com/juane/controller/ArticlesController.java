@@ -132,7 +132,7 @@ public class ArticlesController {
     //前端传来物品id即可
     @GetMapping("/findOwner")
     public R<String> findOwner(HttpServletRequest request,
-                                 Long articlesId){
+                                     Long articlesId){
         //根据id获取对应的物品信息
         Articles articles = articlesService.getArticlesById(articlesId);
         int status = articles.getStatus();
@@ -162,7 +162,7 @@ public class ArticlesController {
     public R myLost(HttpServletRequest request){
         String id = (String) request.getSession().getAttribute("usager");
         List<Articles> articles = articlesService.selectByMe(id,1);
-        if (articles.isEmpty()) return R.success("未获得您的物品丢失信息");
+        if (articles.isEmpty()) return R.error("未获得您的物品丢失信息");
         return R.success(articles);
     }
     //我的上传（面向拾者）
@@ -170,7 +170,7 @@ public class ArticlesController {
     public R myUpload(HttpServletRequest request){
         String id = (String) request.getSession().getAttribute("usager");
         List<Articles> articles = articlesService.selectByMe(id,2);
-        if (articles == null) return R.success("未获得您上传的物品信息");
+        if (articles == null) return R.error("未获得您上传的物品信息");
         return R.success(articles);
     }
 
@@ -179,7 +179,7 @@ public class ArticlesController {
     public R myClaim(HttpServletRequest request){
         String id = (String) request.getSession().getAttribute("usager");
         List<Articles> articles = articlesService.selectByMe(id,3);
-        if (articles.isEmpty()) return R.success("您当前暂未认领任何物品");
+        if (articles.isEmpty()) return R.error("您当前暂未认领任何物品");
         return R.success(articles);
     }
 
@@ -189,7 +189,7 @@ public class ArticlesController {
         Articles articles = articlesService.getArticlesById(articlesId);
         String id = (String) request.getSession().getAttribute("usager");
         if (articles == null || articles.getOwner() == null || articles.getOwner().equals(id))
-            return R.success("黑客请勿攻击！");
+            return R.error("黑客请勿攻击！");
 
         if (articles.getOwner().equals(id)){
             articles.setStatus(2);
@@ -210,7 +210,7 @@ public class ArticlesController {
         Articles articles = articlesService.getArticlesById(id);
         if (articles == null || articles.getOwner() == null
                 ||!articles.getOwner().equals(usagerId))
-            return R.success("Please don't disturb my project!！");
+            return R.error("Please don't disturb my project!！");
 
         articlesService.deleteArticles(id);
         redisTemplate.delete("articles*");
