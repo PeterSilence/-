@@ -56,6 +56,7 @@ public class ArticlesServiceImpl implements ArticlesService {
 
     @Override
     public Articles getArticlesById(Long id) {
+        System.out.println(articlesDao.getArticlesById(id));
         return articlesDao.getArticlesById(id);
     }
 

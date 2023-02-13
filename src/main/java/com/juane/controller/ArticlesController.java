@@ -170,7 +170,7 @@ public class ArticlesController {
     public R myUpload(HttpServletRequest request){
         String id = (String) request.getSession().getAttribute("usager");
         List<Articles> articles = articlesService.selectByMe(id,2);
-        if (articles == null) return R.error("未获得您上传的物品信息");
+        if (articles.isEmpty()) return R.error("未获得您上传的物品信息");
         return R.success(articles);
     }
 
@@ -188,8 +188,10 @@ public class ArticlesController {
     public R<String> cancelClaim(HttpServletRequest request,Long articlesId){
         Articles articles = articlesService.getArticlesById(articlesId);
         String id = (String) request.getSession().getAttribute("usager");
-        if (articles == null || articles.getOwner() == null || articles.getOwner().equals(id))
-            return R.error("黑客请勿攻击！");
+        System.out.println(id);
+        System.out.println(articles);
+        if (articles == null || articles.getOwner() == null || !articles.getOwner().equals(id))
+            return R.error("操作失败！");
 
         if (articles.getOwner().equals(id)){
             articles.setStatus(2);
@@ -198,7 +200,6 @@ public class ArticlesController {
                 redisTemplate.delete("articles*");
                 return R.success("操作成功！");
             }
-
         }
         return R.error("请不要给我的项目搞破坏！我要生气了！");
     }
@@ -209,7 +210,7 @@ public class ArticlesController {
         String usagerId = (String) request.getSession().getAttribute("usager");
         Articles articles = articlesService.getArticlesById(id);
         if (articles == null || articles.getOwner() == null
-                ||!articles.getOwner().equals(usagerId))
+                || !articles.getOwner().equals(usagerId))
             return R.error("Please don't disturb my project!！");
 
         articlesService.deleteArticles(id);

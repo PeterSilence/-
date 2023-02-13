@@ -34,8 +34,7 @@ public interface ArticlesDao {
     int updateArticles(Articles articles);
 
     //根据id获取失物信息
-    @Select("select id,name,position,lost_time,avator,status" +
-            " from articles where id  = #{id}")
+    @Select("select id,name,position,lost_time,takerId,avator,status,owner from articles where id  = #{id}")
     Articles  getArticlesById(Long id);
 
     //我的丢失
