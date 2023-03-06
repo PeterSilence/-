@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.juane.dao.ArticlesDao">
+    <insert id="saveArticles">
+        insert into articles (name,position,lost_time,takerId,avator,status,owner,gmt_create)
+        values(#{name},#{position},#{lost_time},#{takerId},#{avator},#{status},#{owner},#{gmt_create});
+    </insert>
+
+    <update id="updateArticles">
+        update articles
+        <set>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="position != null and position != ''">
+                position = #{position},
+            </if>
+            <if test="lost_time != null">
+                lost_time = #{lost_time},
+            </if>
+            <if test="takerId != null and takerId != ''">
+                takerId = #{takerId},
+            </if>
+            <if test="owner != null and owner != ''">
+                owner = #{owner},
+            </if>
+            <if test="status != null and status != 0">
+                status = #{status},
+            </if>
+            gmt_modified = #{gmt_modified}
+        </set>
+        where id = #{id}
+    </update>
+
+    <select id="theSumOfSelectArticlesByConditions" resultType="java.lang.Integer">
+        select count(*) from articles
+        <where>
+            <if test="lost_time != null">
+                lost_time = #{lost_time}
+            </if>
+            <if test="name != null and name != ''">
+                and name like #{name}
+            </if>
+            <if test="position != null and position != ''">
+                and position like #{position}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+        </where>
+    </select>
+
+    <select id="saveArticlesByOwner" resultType="java.lang.Integer">
+        insert into articles(name,position,lost_time,avator,status,owner)
+        values (#{name},#{position},#{date},#{avator},#{1},#{owner});
+    </select>
+
+    <select id="selectByConditions" resultType="com.juane.entity.Articles">
+        select id,name,position,lost_time,avator,status from articles
+        <where>
+            <if test="articles.lost_time != null">
+                lost_time = #{articles.lost_time}
+            </if>
+            <if test="articles.name != null and articles.name != ''">
+                and name like #{articles.name}
+            </if>
+            <if test="articles.position != null and articles.position != ''">
+                and position like #{articles.position}
+            </if>
+            <if test="articles.status != null and articles.status != 0">
+                and status = #{articles.status}
+            </if>
+        </where>
+        order by id desc
+        limit #{startIndex},30
+    </select>
+
+</mapper>

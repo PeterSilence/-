@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.juane.dao.UsagerDao">
+    <insert id="saveUsager">
+        insert into usager(id,name,sex,phone,avator,password,schoolPosition,gmt_create)
+        values (#{id},#{name},#{sex},#{phone},#{avator},#{password},#{schoolPosition},#{gmt_create});
+    </insert>
+
+    <update id="updateUsager">
+        update usager
+        <set>
+            <if test="name != '' and name != null">
+                name = #{name},
+            </if>
+            <if test="sex != '' and name != null">
+                sex = #{sex},
+            </if>
+            <if test="phone != '' and phone != null">
+                phone = #{phone},
+            </if>
+            <if test="schoolPosition != '' and schoolPosition != null">
+                schoolPosition = #{schoolPosition}
+            </if>
+        </set>
+        where id = #{id};
+    </update>
+
+    <update id="modifyStatus">
+        update usager
+        set aId = #{aId},status = #{status}
+        where id = #{id};
+    </update>
+</mapper>
