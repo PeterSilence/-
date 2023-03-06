@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication  //指定springboot启动类
 @Slf4j  //输出日志
-@ServletComponentScan   //配合过滤器使用
+//@ServletComponentScan   //配合过滤器使用
 @EnableTransactionManagement    //开启事务管理，在操作多张表时
 @MapperScan("com.juane.dao")
 public class PeapyoungApplication {

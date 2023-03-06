@@ -1,5 +1,6 @@
 package com.juane.controller;
 import com.juane.common.R;
+import com.juane.entity.Image;
 import org.springframework.beans.factory.annotation.Value;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -76,6 +79,18 @@ public class LoadResource {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @GetMapping("/show")
+    public List<Image> showImages(){
+        List<Image> imageList = new ArrayList<>();
+        for (int i = 1; i < 4; i++){
+            Image image = new Image();
+            image.setId(1);
+            image.setImage("http://www.peapyoung.top:8080/backend/images/"+i+".jpg");
+            imageList.add(image);
+        }
+        return imageList;
     }
 
 

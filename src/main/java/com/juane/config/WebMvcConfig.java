@@ -17,8 +17,9 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
     //设置静态资源映射,浏览器输入地址映射到项目文件路径
     @Override
     protected void addResourceHandlers(ResourceHandlerRegistry registry) {
+        //项目内静态资源
         registry.addResourceHandler("/backend/**").addResourceLocations("classpath:/backend/");
-        //把对front的访问映射到存储图片的本地目录
+        //把对front的访问映射到存储图片的本地目录。项目外静态资源
         registry.addResourceHandler("/front/**").addResourceLocations("file:/privateProjects/studentCardImg/");
         System.out.println("地址转制成功！");
     }
